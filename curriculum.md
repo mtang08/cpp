@@ -19,23 +19,31 @@ Capstone deadline is soft; slide to early 2027 if Modules 8–11 (the harder one
 ```
 cpp/
 ├── curriculum.md          ← this file
+├── progress.md            ← current module/session progress
 ├── playground/            ← conceptual sessions: textbook reading, tiny snippet experiments
 │   └── main.cpp
-├── exercises/             ← implementation sessions: curriculum module exercises
-│   └── main.cpp
-└── debugging/             ← debugging sessions: AI-generated buggy code to fix
-    └── main.cpp
+├── exercises/             ← implementation sessions, organized by module
+│   └── module-01-types-references-const/
+│       ├── main.cpp
+│       └── Makefile
+└── debugging/             ← debugging sessions, organized by module
+    └── module-01-types-references-const/
+        ├── main.cpp
+        ├── Makefile
+        └── session-YYYY-MM-DD.md
 ```
 
 - `playground/`: scratch space for exploration, syntax experiments, and concept verification
-- `exercises/`: curriculum exercises — I give a prompt, you implement, I review
-- `debugging/`: I generate buggy code, you find and fix it. `make run-sanitized` available for ASan/UBSan
+- `exercises/module-XX-*`: curriculum exercises — I give a prompt, you implement, I review
+- `debugging/module-XX-*`: generated buggy code plus session notes recording prompts, responses, mistakes, and takeaways. `make run-sanitized` available for ASan/UBSan
+
+Progress rule: modules advance one by one. Do not expand scope, insert extra topics, or jump ahead unless explicitly requested.
 
 ---
 
 ## Phase 1: Foundations Refresher
 
-### - [ ] Module 1 — Types, References, and const Correctness
+### - [x] Module 1 — Types, References, and const Correctness
 - What happens when you compile and run a program: source → compiler → object → linker → executable → OS loads it → stack frame for `main`
 - Stack frames, where local variables live, what a function call does at the machine level
 - Value types, narrowing, `auto` deduction rules
