@@ -2,7 +2,7 @@
 
 ## Current Module
 
-- Module 1 — Types, References, and const Correctness
+- Module 2 — Ownership and Resource Management (RAII)
 
 ## 2026-07-04
 
@@ -13,6 +13,13 @@
 - Completed the Module 1 const-correctness debugging pass.
 - Marked Module 1 complete in `curriculum.md`.
 - Identified focus areas: reference-vs-pointer choice and ownership transfer.
+- Started Module 2.
+- Completed the RAII buffer exercise in `exercises/module-02-ownership-raii/main.cpp`.
+- Practiced constructor acquisition, destructor cleanup, deleted copy operations, const member functions, and bounds checks.
+- Ran normal and sanitizer builds successfully for the Module 2 exercise.
+- Completed the Module 2 debugging pass for a resource leak and double-free.
+- Marked Module 2 complete in `curriculum.md`.
+- Debugging difficulty rating: 1; next debugging session should be harder with less scaffolding.
 
 ## Session Rules
 

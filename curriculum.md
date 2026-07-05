@@ -52,7 +52,7 @@ Progress rule: modules advance one by one. Do not expand scope, insert extra top
 - **Exercise:** implement a function family with correct const/reference signatures
 - **Debug:** find subtle const-correctness bugs
 
-### - [ ] Module 2 — Ownership and Resource Management (RAII)
+### - [x] Module 2 — Ownership and Resource Management (RAII)
 - Stack vs heap allocation — what actually happens at each
 - RAII: constructors, destructors, deterministic cleanup
 - `new`/`delete` and why you almost never use them directly
