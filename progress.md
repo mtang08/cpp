@@ -2,7 +2,22 @@
 
 ## Current Module
 
-- Module 3 debugging — The Rule of Five and Value Semantics
+- Module 3 complete; Module 4 is next.
+
+## 2026-10-01
+
+- Completed Module 3 debugging; see `debugging/module-03-rule-of-five-value-semantics/session-2026-10-01.md`.
+- Mistakes:
+  - Assumed `std::move` guarantees move construction regardless of available constructors.
+  - Initially used an inequality instead of verifying the source's exact preserved value.
+- Conventions learned:
+  - Rvalues can bind to a copy constructor's `const T&` parameter.
+  - Ownership transfer leaves a valid source; this challenge specifically requires an empty source.
+  - `noexcept` move construction enables vector relocation without packet copies.
+  - Copy assignment can restore a moved-from object; test independent storage afterward.
+- Verification: normal and ASan/UBSan checks passed, including moved-from destination reuse.
+- Debugging difficulty rating: 1; next challenge should be harder with no scaffolding.
+- Debugging flow: give the full challenge up front, then allow independent work. Discuss at review or when help is explicitly requested; avoid conversational checkpoints.
 
 ## 2026-07-10
 

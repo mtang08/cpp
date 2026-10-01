@@ -64,7 +64,7 @@ Engineering focus: exercises should build judgment around invariants, ownership,
 - **Exercise:** build a resource-managing class (file wrapper or buffer)
 - **Debug:** fix a resource leak and a double-free
 
-### - [ ] Module 3 — The Rule of Five and Value Semantics
+### - [x] Module 3 — The Rule of Five and Value Semantics
 - Copy constructor, copy assignment, destructor, move constructor, move assignment
 - When the compiler generates them, when it doesn't, and why
 - `= default`, `= delete`
