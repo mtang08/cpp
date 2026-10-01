@@ -39,6 +39,10 @@ cpp/
 
 Progress rule: modules advance one by one. Do not expand scope, insert extra topics, or jump ahead unless explicitly requested.
 
+Learning mode: implementation-first. Each module should center on a meaningful exercise with full requirements up front, followed by compile/sanitizer runs, edge-case testing, code review, and iteration. Concept explanations should be brief and used to support implementation rather than replace it.
+
+Engineering focus: exercises should build judgment around invariants, ownership, API design, error handling, testability, and performance tradeoffs as appropriate for the module. Debugging sessions remain Socratic and are calibrated by prior difficulty ratings.
+
 ---
 
 ## Phase 1: Foundations Refresher
