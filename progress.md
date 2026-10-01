@@ -2,10 +2,11 @@
 
 ## Current Module
 
-- Module 3 complete; Module 4 is next.
+- Module 4 implementation — Move Semantics Deep Dive.
 
 ## 2026-10-01
 
+- Prepared the Module 4 `UniqueBuffer` handoff exercise with complete requirements and build support. Independent implementation first; review on request.
 - Completed Module 3 debugging; see `debugging/module-03-rule-of-five-value-semantics/session-2026-10-01.md`.
 - Mistakes:
   - Assumed `std::move` guarantees move construction regardless of available constructors.
