@@ -1,171 +1,159 @@
-# C++ Mastery Curriculum
+# C++ Systems Engineering Curriculum
 
-Goal: quant-firm-level C++ proficiency. Concurrency deferred to a later study phase.
+Revised 2026-10-03. Finish C++ foundations, build an order-book replay application, then grow it toward exchange connectivity and reliable trading infrastructure. See [learning context](context/README.md) for goals, background and reading plans. Python is outside this curriculum.
 
-## Phase Roadmap
+## Workflow and document ownership
 
-| Phase | Timeline | Focus |
-|-------|----------|-------|
-| 1 | Now → early August 2026 | Finish OSTEP, C++ exercises Modules 1–3, start 4 |
-| 2 | August → December 2026 | EMCPP + Modules 4–14, systems depth (networks, perf comp arch, light DDIA), capstone |
+- `context/README.md`: goals and preferences. `curriculum.md`: sequence and scope. Exercise READMEs: behavior and acceptance contracts. `progress.md`: current task and demonstrated learning. `AGENTS.md`: teaching rules. The July critique is historical.
+- Work one module at a time. Modules 1–3 remain complete; Module 4 is active. Future specifications are prepared now to give agents the whole progression, not to start parallel assignments.
+- Read the full roadmap, current progress and adjacent module specs before preparing/reviewing work. Preserve completed work; identify each module's new contribution instead of repeating prior drills.
+- Each module has one bounded implementation exercise and a focused debugging session. Module 11 combines them. Generate buggy code only when its session starts, calibrated to the latest rating; give the full challenge and let the learner investigate independently.
+- The learner writes core code and meaningful tests. The assistant may supply build support, fixtures and independent checks. Reviews identify problems without rewriting solutions unless asked.
+- Specs define behavior, errors, invariants and acceptance evidence. Increasingly leave API, container and internal layout choices to the learner. Any missing material contract should be resolved before implementation, not introduced as a surprise at review.
+- Stop expanding a module when its checks pass and findings are addressed. Do not demand every possible abstraction, a fixed speedup, textbook completion or extra drills before moving on.
 
-**EMCPP** will be read alongside the curriculum.
-Capstone deadline is soft; slide to early 2027 if Modules 8–11 (the harder ones) run long.
+## Engineering practice
 
----
+Use C++20 and `-Wall -Wextra -Wpedantic`. Run normal and ASan/UBSan builds for runnable exercises. Introduce `-Wconversion -Wshadow` from Module 7 and resolve or explain diagnostics. Tests must remain effective with NDEBUG. Keep sanitized and optimized benchmark builds separate.
 
-## Folder Structure
+From Module 7, separate reusable code from tests and introduce headers/sources naturally; templates can remain in headers. Build support may be supplied until Module 14 makes build ownership explicit. Formatting and static analysis support implementation rather than becoming separate projects.
 
-```
-cpp/
-├── curriculum.md          ← this file
-├── progress.md            ← current module/session progress
-├── playground/            ← conceptual sessions: textbook reading, tiny snippet experiments
-│   └── main.cpp
-├── exercises/             ← implementation sessions, organized by module
-│   └── module-01-types-references-const/
-│       ├── main.cpp
-│       └── Makefile
-└── debugging/             ← debugging sessions, organized by module
-    └── module-01-types-references-const/
-        ├── main.cpp
-        ├── Makefile
-        └── session-YYYY-MM-DD.md
-```
+Completion means the behavior and edge cases work, ownership/invariants can be explained, meaningful tests pass, and review issues are resolved. Record whether a skill was demonstrated independently or corrected after feedback. Sanitizers complement reasoning; they do not prove correctness. Use subsequent module requirements to revisit weaknesses naturally.
 
-- `playground/`: scratch space for exploration, syntax experiments, and concept verification
-- `exercises/module-XX-*`: curriculum exercises — I give a prompt, you implement, I review
-- `debugging/module-XX-*`: generated buggy code plus session notes recording prompts, responses, mistakes, and takeaways. `make run-sanitized` available for ASan/UBSan
+Performance work follows: correct baseline, defined workload, profiling, one relevant change, correctness recheck and a short report. Document compiler, machine, input and variability. Throughput and latency are different metrics; batch runtime divided by event count is not a measured latency distribution. Linux tooling comes with later systems work; use tools available on the development machine now.
 
-Progress rule: modules advance one by one. Do not expand scope, insert extra topics, or jump ahead unless explicitly requested.
+## Roadmap
 
-Learning mode: implementation-first. Each module should center on a meaningful exercise with full requirements up front, followed by compile/sanitizer runs, edge-case testing, code review, and iteration. Concept explanations should be brief and used to support implementation rather than replace it.
+| Modules | New responsibility | Ready to move on when |
+|---|---|---|
+| 1–4 | Types, ownership, values and API handoff | Transfers and lifetimes are correct and explainable |
+| 5–7 | Generic code, object lifetime and data processing | Choose containers/algorithms and test independent components |
+| 8–11 | Measurement, dispatch and debugging | Justify tradeoffs and investigate unfamiliar failures |
+| 12–14 | Parsing, dependency ownership and packaging | Deliver a tested multi-file application |
+| 15 | Integrated order-book replay | Demonstrate deterministic correctness and measured behavior |
+| After 15 | Connectivity, concurrency and recovery | Evolve one working system milestone at a time |
 
-Engineering focus: exercises should build judgment around invariants, ownership, API design, error handling, testability, and performance tradeoffs as appropriate for the module. Debugging sessions remain Socratic and are calibrated by prior difficulty ratings.
+Finish foundations first. After the initial modules, read Effective Modern C++ a couple of hours weekly and apply relevant lessons during project work. OSTEP virtualization/concurrency reading is complete; review of the first five chapters of Top-Down Approach networking is planned. Reading is not a gate on module progress. Interview algorithms and role-specific preparation remain separate from this sequence.
 
----
+## Completed modules — retain existing work
 
-## Phase 1: Foundations Refresher
+### Module 1 — Types, References, and const Correctness
 
-### - [x] Module 1 — Types, References, and const Correctness
-- What happens when you compile and run a program: source → compiler → object → linker → executable → OS loads it → stack frame for `main`
-- Stack frames, where local variables live, what a function call does at the machine level
-- Value types, narrowing, `auto` deduction rules
-- References vs pointers — when and why
-- `const T&`, `T const&`, `const T* const` — reading declarations right-to-left
-- **Exercise:** implement a function family with correct const/reference signatures
-- **Debug:** find subtle const-correctness bugs
+Value types and deduction, const, pointers/references and lifetime; compilation/linking and basic execution. Exercise: function interfaces. Completed; retain original artifacts and logs.
 
-### - [x] Module 2 — Ownership and Resource Management (RAII)
-- Stack vs heap allocation — what actually happens at each
-- RAII: constructors, destructors, deterministic cleanup
-- `new`/`delete` and why you almost never use them directly
-- `std::unique_ptr`, `std::shared_ptr` — ownership semantics
-- **Exercise:** build a resource-managing class (file wrapper or buffer)
-- **Debug:** fix a resource leak and a double-free
+### Module 2 — Ownership and RAII
 
-### - [x] Module 3 — The Rule of Five and Value Semantics
-- Copy constructor, copy assignment, destructor, move constructor, move assignment
-- When the compiler generates them, when it doesn't, and why
-- `= default`, `= delete`
-- **Exercise:** implement a `DynamicArray` class with all five special members
-- **Debug:** fix a class with a missing move constructor causing unnecessary copies
+Resource ownership, allocation and deterministic cleanup. Exercise: resource-managing class; debugging ownership failures. Completed. Module 13 applies ownership to component boundaries rather than repeating raw resource management.
 
----
+### Module 3 — Rule of Five and Value Semantics
 
-## Phase 2: Modern C++ Mechanics
+Completed int-only DynamicArray with deep copies, moves, growth and valid moved-from states. Module 4 adds API handoff; Module 6 adds generic object lifetime. Do not reassign Module 3.
 
-### - [ ] Module 4 — Move Semantics Deep Dive
-- lvalues vs rvalues vs xvalues — what the compiler sees
-- `std::move` is just a cast — what it does and doesn't do
-- Reference collapsing and perfect forwarding (`std::forward`)
-- RVO / NRVO — when moves are elided entirely
-- **Exercise:** implement a `UniqueBuffer` that transfers ownership correctly
-- **Debug:** fix misused `std::move` (moving from const, use-after-move)
+## Active module
 
-### - [ ] Module 5 — Templates and Type Deduction
-- Function templates, class templates, template argument deduction
-- `auto` and `decltype` — deduction rules and pitfalls
-- SFINAE basics and `std::enable_if`
-- C++17 `if constexpr`, `constexpr` functions
-- **Exercise:** write a generic `serialize()` dispatching by type (arithmetic vs string vs container)
-- **Debug:** decipher and fix template error messages
+### Module 4 — Move Semantics and Ownership Handoff
 
-### - [ ] Module 6 — STL Containers and Iterators Under the Hood
-- `vector` memory layout: size, capacity, reallocation, iterator invalidation
-- `map` vs `unordered_map` — red-black tree vs hash table, cache implications
-- `deque`, `list`, `array` — when and why
-- Iterator categories and why they matter for algorithm complexity
-- **Exercise:** implement a simplified `vector<T>` with push_back, reserve, move-aware reallocation
-- **Debug:** fix iterator invalidation bugs
+[Complete spec](exercises/module-04-move-semantics/README.md). Build UniqueBuffer, BufferSlot, a forwarding relay and a return-by-value factory. New learning: value categories, const interaction, forwarding, implicit moves and elision across APIs. Keep the existing API and raw storage exercise; no extra container features. Complete normal, sanitized and optional-elision-disabled checks and explain rejected calls. Broader template constraints belong to Module 5.
 
-### - [ ] Module 7 — STL Algorithms and Lambdas
-- Algorithm complexity guarantees and iterator requirements
-- Lambdas: capture by value/reference, mutable, generic lambdas
-- `std::function` and its overhead vs templates
-- **Exercise:** solve a data-processing pipeline using STL algorithms and lambdas
-- **Debug:** fix capture-by-reference lifetime bugs
+## Remaining foundations
 
----
+### Module 5 — Templates and Type Deduction
 
-## Phase 3: Performance and Low-Level Reasoning
+- **New focus:** Function and class templates; deduction, auto/decltype, concepts/requires and if constexpr. Recognize SFINAE in existing code without making enable_if the default.
+- **Build:** [Constrained diagnostic formatting](exercises/module-05-templates-type-deduction/README.md).
+- **Completion:** Exact-output tests for each category, empty inputs, escapes, negative integers, numeric limits and both container types. Compile-time checks must distinguish supported and unsupported types. Explain why overload/constraint selection treats strings correctly.
+- **Boundary:** Full serialization, nested ranges, wire protocols, advanced metaprogramming. Module 4 already owns forwarding practice.
+- **Project connection:** Type-safe utilities and readable diagnostics.
 
-### - [ ] Module 8 — Memory Layout and Cache Performance
-- Struct layout, padding, alignment (`alignof`, `alignas`)
-- Array-of-structs vs struct-of-arrays
-- Cache lines, spatial/temporal locality, false sharing (conceptual)
-- **Exercise:** optimize a hot loop by improving data layout; measure with timing
+### Module 6 — Containers, Storage, and Element Lifetime
 
-### - [ ] Module 9 — Compile-Time Computation
-- `constexpr` vs `const` vs `consteval`
-- `constexpr` functions, `constexpr if`
-- Template metaprogramming basics: type traits, `std::integral_constant`
-- Practical uses: compile-time lookup tables, static dispatch
-- **Exercise:** implement a compile-time lookup table and type-trait-based dispatch
+- **New focus:** Separate raw storage from live objects; allocator_traits, construction/destruction, relocation, exception guarantees and invalidation. Compare standard container complexity and locality.
+- **Build:** [A bounded vector<T> implementation](exercises/module-06-stl-containers-iterators/README.md).
+- **Completion:** Use lifetime-counting, non-default-constructible, move-only and copy-throwing test types. Test relocation failure, destruction counts, empty states, bounds and reuse after move. Explain vector/map/unordered_map/deque choices for ID lookup and ordered price queries; implement only this container.
+- **Boundary:** Full std::vector compatibility, allocator propagation, custom allocators, copyable container semantics and throwing move-only relocation. This adds object lifetime to Module 3, not another integer array.
+- **Project connection:** Understand standard containers before choosing book indexes.
 
-### - [ ] Module 10 — Polymorphism: Virtual vs Static
-- Virtual dispatch: vtable layout, pointer indirection cost
-- CRTP (Curiously Recurring Template Pattern) for static polymorphism
-- `std::variant` + `std::visit` as an alternative to inheritance
-- Quant perspective: virtual = branch mispredictions in hot paths
-- **Exercise:** refactor virtual dispatch into CRTP; implement a variant-based message handler
+### Module 7 — STL Algorithms, Lambdas, and Views
 
-### - [ ] Module 11 — Undefined Behavior, Compiler Optimizations, and Debugging
-- Common UB: signed overflow, null deref, use-after-free, strict aliasing
-- How UB enables compiler optimizations (and bites you)
-- Reading compiler output with Compiler Explorer
-- Sanitizers: ASan, UBSan, MSan
-- **Exercise:** find and fix UB in a series of short programs
+- **New focus:** Algorithm contracts and complexity, strict weak ordering, captures, callable types, span/string_view and borrowed lifetimes.
+- **Build:** [Deterministic event analytics](exercises/module-07-stl-algorithms-lambdas/README.md).
+- **Completion:** Hand-computed cases for empty input, boundaries, ties, mixed instruments, overflow and input preservation. Explain complexity, comparator correctness and capture/view lifetimes.
+- **Boundary:** Parsing, order-book state transitions, custom sorting algorithms and a mandatory ranges framework.
+- **Project connection:** Deterministic batch processing and queries.
 
----
+### Module 8 — Memory Layout and Performance Measurement
 
-## Phase 4: Design and Idioms
+- **New focus:** Alignment/padding, locality, working sets, AoS/SoA, optimized builds, profiling and benchmark validity.
+- **Build:** [Profile and compare event layouts](exercises/module-08-memory-layout-cache-performance/README.md).
+- **Completion:** Report compiler/options, machine, workload sizes/seeds, repetitions, variability, memory/storage cost and output equivalence. Explain a speedup, slowdown or inconclusive result. A small results table and concise explanation are sufficient.
+- **Boundary:** An arbitrary speedup target, SIMD, hardware tuning, custom pools and false-sharing experiments before concurrency.
+- **Project connection:** Reproducible evidence for later optimization.
 
-### - [ ] Module 12 — Error Handling Strategies
-- Exceptions: cost model (zero-cost happy path, expensive throw)
-- `std::optional`, `std::expected` (C++23 pattern)
-- Error codes, `noexcept` — when and why
-- Quant perspective: many firms ban exceptions in hot paths
-- **Exercise:** implement a parser using `std::optional`; compare exception vs error-code approaches
+### Module 9 — Compile-Time Computation
 
-### - [ ] Module 13 — Smart Pointer Patterns and API Design
-- `unique_ptr` for ownership, raw pointers/references for observation
-- `shared_ptr` costs: reference counting, control block, atomic overhead
-- `weak_ptr` for breaking cycles
-- Designing APIs: sink parameters, factory functions, pimpl idiom
-- **Exercise:** design and implement a component system with clear ownership semantics
+- **New focus:** constexpr, consteval, static_assert, simple traits and the distinction between constant evaluation and runtime execution.
+- **Build:** [Validated event metadata](exercises/module-09-compile-time-computation/README.md).
+- **Completion:** Compile-time success/failure examples for metadata invariants and runtime checks for each kind and unknown codes. Explain constexpr versus consteval and why runtime input still needs validation.
+- **Boundary:** A general metaprogramming library, parser implementation, forced compile-time optimization of all logic.
+- **Project connection:** Consistent protocol metadata.
 
-### - [ ] Module 14 — Writing Testable, Maintainable C++
-- Header/source organization and compilation model
-- Dependency injection without frameworks
-- Building small projects with multiple translation units
-- **Exercise:** split a monolithic program into headers/sources, add a simple test harness
+### Module 10 — Polymorphism and Dispatch Choices
 
----
+- **New focus:** Virtual interfaces, variant/visit, template dispatch, open versus closed type sets; recognize CRTP and devirtualization.
+- **Build:** [Compare event-handler boundaries](exercises/module-10-polymorphism-virtual-static/README.md).
+- **Completion:** Equivalent behavioral tests, empty input and destruction/lifetime checks. Justify a preferred boundary for this workload. Virtual dispatch does not imply a fixed penalty or guaranteed branch misprediction.
+- **Boundary:** A plugin system, mandatory CRTP refactor or a required benchmark win.
+- **Project connection:** Choose abstractions according to extension and ownership needs.
 
-## Phase 5: Capstone
+### Module 11 — Undefined Behavior and Debugging
 
-### - [ ] Module 15 — Order Book or Message Parser
-- Build a simplified limit order book or FIX message parser
-- Applies: move semantics, templates, cache-aware data structures, RAII, no-exception hot paths
-- Iterative: start simple, profile, optimize, explain tradeoffs
+- **New focus:** Lifetime/bounds, signed overflow, aliasing/alignment, optimizer assumptions, debugger use and sanitizer limitations.
+- **Build:** [Repair an unfamiliar processing component](exercises/module-11-undefined-behavior-debugging/README.md).
+- **Completion:** Reproducible failures, justified fixes and regression tests covering each issue. Explain what clean sanitizer results do and do not establish.
+- **Boundary:** A second duplicate debug assignment, exhaustive UB puzzles or mandatory MSan on unsupported platforms.
+- **Project connection:** Investigate integration failures independently.
+
+### Module 12 — Error Handling and Parsing
+
+- **New focus:** Structured results, optional versus diagnostic errors, exceptions/noexcept, from_chars, numeric bounds and string_view lifetimes.
+- **Build:** [Parse replay events with useful diagnostics](exercises/module-12-error-handling/README.md).
+- **Completion:** Valid records and missing/extra fields, numeric limits/overflow, signs, trailing junk, invalid tags and blank lines. Results survive destruction of the input string. Diagnostics identify the failing location.
+- **Boundary:** FIX, binary parsing, book implementation, a custom general-purpose expected library or blanket exception bans.
+- **Project connection:** A reusable input contract for replay.
+
+### Module 13 — Ownership and API Design
+
+- **New focus:** Rule of Zero, unique ownership, observing references/pointers, shared_ptr costs, weak_ptr, factories and sink parameters.
+- **Build:** [A replay session with explicit dependencies](exercises/module-13-smart-pointer-api-design/README.md).
+- **Completion:** Test empty sources, invalid lines, source/sink failures, replacement, teardown and observer lifetimes. Explain construction/destruction order and any copy/move restrictions.
+- **Boundary:** Custom smart pointers, manufactured cycles, required pimpl, concurrency and full book implementation.
+- **Project connection:** Clear ownership for later connections and sessions.
+
+### Module 14 — Testable and Maintainable C++
+
+- **New focus:** Dependency boundaries, multi-translation-unit builds, CMake/CTest, deterministic tests, CLI contracts and failure propagation.
+- **Build:** [Package a replay skeleton](exercises/module-14-testable-maintainable-cpp/README.md).
+- **Completion:** Clean build and test instructions work; tests cover valid/invalid input, unavailable files and injected sink failure. Explain public headers, dependency direction, linking and test isolation.
+- **Boundary:** A framework, a build-system survey, mandatory external test packages or implementing the book early.
+- **Project connection:** A maintained application foundation for the capstone.
+
+## Module 15 — Order-Book Replay Application
+
+[Complete capstone contract](exercises/module-15-order-book-replay/README.md). Integrate the foundations into a single-instrument, single-threaded replay program. The learner chooses containers and interfaces and records a short design rationale. Use standard components unless a measured requirement justifies otherwise; exercise implementations need not become project dependencies.
+
+Deliver typed input handling, book state transitions and queries, a CLI, independent reference tests, generated event sequences, build instructions and a measured baseline with one investigated improvement. Executions come from input; matching is a separate extension. The capstone is complete without sockets, threads or a live exchange.
+
+## Project expansion after the capstone
+
+These are roadmap milestones, not additional requirements for Modules 4–15. Specify one fully when it starts and keep a working system at every step. Revisit OS/networking concepts to explain concrete behavior rather than repeating entire courses.
+
+| Milestone | Build and learn | Completion evidence |
+|---|---|---|
+| 1 — Feed simulator and connectivity | A local C++ feed simulator and connected consumer; framing, partial reads/writes, bounded input, sequence tracking and explicit disconnect behavior | Deterministic tests for fragmented/coalesced messages, gaps, duplicates, disconnects and reconnect policy; Linux build and basic profiling |
+| 2 — Order-entry lifecycle | A simulated venue accepting requests and emitting acknowledgments, rejections and fills; track pending/accepted/partial/terminal states | State-machine tests, correlation IDs, cancel/fill races and explicit handling of uncertain outcomes; no real trading required |
+| 3 — Concurrency and load | Introduce bounded queues and separate work only where useful; threads/jthread, mutexes, condition variables, cancellation and happens-before | Ordering, overload and shutdown tests; measured throughput/latency under a stated load; TSan where supported, separately from ASan |
+| 4 — Recovery and operations | Durable logs/checkpoints, restart/reconciliation, metrics and failure injection | Reproducible recovery without silent loss/duplication; documented consistency, resource limits and operational failure behavior |
+
+Add multiple instruments or richer binary protocols when an explicit milestone needs them. Begin concurrency with ordinary synchronization; atomics and lock-free designs are later choices, not prerequisites. Investigate allocation strategies/PMR, CPU-specific optimization or hardware interfaces only when measurements and interest justify them. Python remains outside the plan.
+
+The target is reliable C++ systems engineering with a path toward live-trading platform work. The same foundation supports trading-facing execution work later. There is no assumed nanosecond target or guarantee of hiring readiness; independent debugging, design judgment and clear explanations matter alongside completed code.

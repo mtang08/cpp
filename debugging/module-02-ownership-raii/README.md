@@ -1,3 +1,3 @@
 # Module 2 — Ownership and Resource Management (RAII)
 
-Debugging prompts and session notes for this module will go here when Module 2 starts.
+Status: complete. See [the session record](session-2026-07-04.md) for the challenge and learning notes. Retain the existing artifacts rather than regenerating this challenge.

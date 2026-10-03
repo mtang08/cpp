@@ -1,6 +1,6 @@
 # C++ Learning Workspace
 
-Personal C++ learning project targeting quant-firm-level proficiency. See `curriculum.md` for the full module plan and current progress.
+Personal C++ learning project targeting strong software systems engineering and quant SWE roles. Read [context/README.md](context/README.md) for goals, background, and sequencing preferences before planning exercises or revising the curriculum. See `curriculum.md` for the module plan and `progress.md` for current progress.
 
 ## Rules for AI assistance
 
@@ -24,12 +24,13 @@ Personal C++ learning project targeting quant-firm-level proficiency. See `curri
 
 ## Context
 
-New grad SWE; Go and React are my professional stack, but stronger in C++ at the language level. Intermediate C++ — comfortable with classes, pointers, basic STL; working toward fluency in modern features (move semantics, templates, cache-aware design). *Effective Modern C++* will be read alongside the curriculum.
+New grad SWE; Go and React are my professional stack, but stronger in C++ at the language level. Intermediate C++ — comfortable with classes, pointers, basic STL; working toward fluency in modern features (move semantics, templates, cache-aware design). Current reading plans and systems background are maintained in [context/README.md](context/README.md).
 
 Workspace: `playground/` for scratch, `exercises/module-XX-*/` for curriculum modules, `debugging/module-XX-*/` for buggy-code challenges and debugging notes.
 
 ## Implementation-First Mode
 
+- Before preparing or reviewing a module, read the curriculum roadmap, current progress, and the current/adjacent exercise specs. Use the planned boundaries to avoid duplicate exercises and surprise requirements. Generate debugging challenges just in time, calibrated to the latest rating.
 - Default exercise flow: provide full requirements, let me implement, review the result, then iterate.
 - Use phased guidance only when the topic is genuinely subtle or I ask for it.
 - Do not add unrelated drills, but make the official module exercise substantial enough to practice real engineering judgment.

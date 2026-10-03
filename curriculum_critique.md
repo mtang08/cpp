@@ -2,6 +2,8 @@
 
 Assessment date: July 2026
 
+Historical assessment. Current goals and sequencing decisions are maintained in [context/README.md](context/README.md); those supersede this document's older recommendations where they differ.
+
 Goal: evaluate whether `curriculum.md` is a sufficient starting path for targeting quant SWE roles with 1-2 YOE, using *Effective Modern C++* concurrently and *A Tour of C++* as prior light exposure.
 
 ## Summary

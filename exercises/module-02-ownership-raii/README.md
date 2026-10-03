@@ -1,3 +1,3 @@
 # Module 2 — Ownership and Resource Management (RAII)
 
-Exercise work for this module will go here when Module 2 starts.
+Status: complete. Existing implementation and build support are retained here. See [progress](../../progress.md) for the learning record. Do not restart this module as part of the revised curriculum.

@@ -4,6 +4,14 @@
 
 - Module 4 implementation — Move Semantics Deep Dive.
 
+## 2026-10-03 — Learning direction
+
+- Recorded goals, role interests, prior systems study, and reading plans in [context/README.md](context/README.md); consult it before curriculum planning.
+- Decided on C++ foundations first, followed by an order-book replay capstone that can grow into trading infrastructure. Python is outside the current curriculum.
+- Completed the detailed curriculum revision and exercise contracts for Modules 4–15. Module 4 remains active with its existing API and build targets; its spec now clarifies handoff/observer lifetimes and completion boundaries.
+- Future debugging READMEs define scope; generate challenges only when reached. Module 11 combines implementation and debugging into one assignment. Networking, order entry, concurrency, and recovery follow the initial capstone.
+- Next action: implement and test Module 4, request review, then complete its calibrated debugging session before advancing. Prioritize momentum through the stated requirements; avoid extra drills.
+
 ## 2026-10-01
 
 - Prepared the Module 4 `UniqueBuffer` handoff exercise with complete requirements and build support. Independent implementation first; review on request.

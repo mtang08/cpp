@@ -4,6 +4,8 @@
 
 Build a move-only byte buffer and a single-buffer processing slot. The goal is to make ownership transfers explicit and understand when expressions permit or prevent moving. Write the implementation and tests yourself; no conversational checkpoints are required.
 
+Status: active. Prerequisites: Modules 1–3. The new learning is ownership handoff across APIs, forwarding, and return values. The buffer reinforces earlier ownership work; do not add capacity/growth, copying, iterators, or generic storage. Module 5 covers broader template constraints and Module 6 covers generic element lifetime. This exercise prepares you to distinguish owned input from borrowed observation in the replay project.
+
 ### `UniqueBuffer`
 
 Provide this public API:
@@ -41,7 +43,9 @@ UniqueBuffer take() noexcept;
 ```
 
 - `submit` replaces the stored buffer by transferring ownership of its parameter. An empty buffer is allowed.
+- A default-constructed slot is empty. `submit` performs no allocation or byte copying after its parameter has been constructed.
 - `peek` provides read-only observation without a transfer.
+- The reference returned by `peek` observes the slot's current buffer object and must not outlive the slot. A saved byte pointer has a separate lifetime governed by the allocation's owner; do not dereference it after that allocation is released.
 - `take` returns the stored buffer by value, leaving the slot empty. It transfers the allocation without copying or allocating.
 - A buffer passed from a named caller variable must be explicitly surrendered by the caller; temporaries must work directly.
 
@@ -62,6 +66,7 @@ Use meaningful checks in `main.cpp` covering:
 - Submission of a temporary and an explicitly surrendered named buffer; replacement of an existing slot value; taking from populated and empty slots.
 - Forwarding a temporary and an explicitly surrendered named buffer through `relay`.
 - A factory result that survives normal builds and builds with `-fno-elide-constructors`.
+- `make_buffer(0)` returns an empty buffer; nonempty results contain only `std::byte{0x2a}`. Do not require a specific move-constructor count when optional elision is enabled.
 - Type traits confirming the buffer is noncopyable and nothrow move constructible/assignable.
 
 Also try these intentionally invalid calls separately from the runnable harness: submit a named buffer without surrendering it; submit a const buffer through `std::move`; relay a named buffer as an lvalue. Record briefly why each fails, then keep the normal build valid. Do not change the API to make those calls succeed.
@@ -71,3 +76,5 @@ Also try these intentionally invalid calls separately from the runnable harness:
 Use C++20 with `-Wall -Wextra -Wpedantic -g`. The supplied Makefile supports `make run`, `make run-sanitized`, `make run-no-elide`, and `make clean`.
 
 Work through implementation, compilation, and debugging independently. When ready for review, include your explanation of the rejected calls and why the factory works even when optional elision is disabled.
+
+The no-elide flag disables optional elision such as NRVO; it does not disable mandatory C++17 prvalue elision. Keep the explanation brief. Passing the stated checks and addressing review findings completes the implementation exercise; no extra move-semantics drills are required. A separate focused debugging session will be generated using your latest difficulty rating.
