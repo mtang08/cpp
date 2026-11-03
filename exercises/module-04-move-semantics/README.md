@@ -57,19 +57,39 @@ UniqueBuffer take() noexcept;
 
 ### Verification
 
-Use meaningful checks in `main.cpp` covering:
+Write checks in `main.cpp` that fail visibly when the expected result is wrong. Merely calling a function does not test its result. Keep checks active even if `NDEBUG` is defined (plain `assert` is disabled in that build).
 
-- Empty and nonempty construction, zero initialization, mutable and const access, and out-of-range access.
-- Move construction and move assignment into a nonempty destination. Record the original pointer and verify destination pointer identity, contents, and empty source state.
-- Self-move and moving an empty buffer into a nonempty buffer.
-- Reuse of a moved-from object through assignment.
-- Submission of a temporary and an explicitly surrendered named buffer; replacement of an existing slot value; taking from populated and empty slots.
-- Forwarding a temporary and an explicitly surrendered named buffer through `relay`.
-- A factory result that survives normal builds and builds with `-fno-elide-constructors`.
-- `make_buffer(0)` returns an empty buffer; nonempty results contain only `std::byte{0x2a}`. Do not require a specific move-constructor count when optional elision is enabled.
-- Type traits confirming the buffer is noncopyable and nothrow move constructible/assignable.
+The table spells out the existing requirements; it does not add new ones. A source is the object you move from; a destination is the object receiving its storage. A moved-from object is still alive, but this exercise requires it to be empty.
 
-Also try these intentionally invalid calls separately from the runnable harness: submit a named buffer without surrendering it; submit a const buffer through `std::move`; relay a named buffer as an lvalue. Record briefly why each fails, then keep the normal build valid. Do not change the API to make those calls succeed.
+| What to test | What to do and check |
+|---|---|
+| Empty construction | Construct with no size, and with size zero. Check size zero, `empty()` true, and `data()` null. |
+| Nonempty construction | Construct a small buffer. Check its requested size, a non-null pointer, and that every byte is zero. |
+| Reading and writing | Change a byte through `at()`, then check its new value. Also read through a const reference to the buffer. |
+| Bad index | Call `at(size())` and `at(0)` on an empty buffer. Check that `std::out_of_range` is thrown. Exercise both const and non-const access. |
+| Move construction | Put recognizable bytes in a source and save its `data()` pointer. Construct a new destination by moving the source. Check the destination has that exact pointer, size, and bytes. Check the source is empty with a null pointer. |
+| Move assignment | Start with two nonempty buffers. Move one into the other using assignment. Check the same pointer, size, contents, and empty-source results as above. Run sanitizers to help catch incorrect memory handling. |
+| Self-move | Move a buffer into itself using assignment. Check that its pointer, size, and bytes are unchanged. |
+| Move from empty | Move an empty source into a nonempty destination. Check both objects end empty with null pointers. |
+| Reuse after moving | After moving out of a buffer, assign another buffer into it. Check it now owns the new storage and can be accessed normally. |
+| Empty slot | Construct a slot and check `peek()` reports an empty buffer. |
+| Submit | Submit a freshly constructed temporary buffer. Separately submit a named buffer using `std::move`. Check the slot's size and bytes, and that the named source became empty. |
+| Replace slot contents | Submit a second buffer into a populated slot. Check it now holds the second buffer's pointer, size, and bytes. Also submit an empty buffer and check the slot becomes empty. |
+| Take | Take from a populated slot. Check the result owns the former pointer and contents, and the slot is empty. Taking from an empty slot should return an empty buffer. |
+| Relay | Repeat submission through `relay`: once with a temporary, once with a named buffer passed using `std::move`. Check the same transfer results. |
+| Factory | Check `make_buffer(0)` is empty. For a nonzero size, check the size and that every byte equals `std::byte{0x2a}`. Run these checks with both normal and no-elide builds. |
+
+Saving a pointer before a transfer and comparing it afterward checks that the existing allocation was handed over. Do not dereference saved pointers after their storage has been released. Review the transfer code as well to confirm it makes no allocation or byte copy.
+
+Use `<type_traits>` and compile-time checks (`static_assert`) to confirm these four facts: `UniqueBuffer` cannot be copy constructed, cannot be copy assigned, can be move constructed without throwing, and can be move assigned without throwing. The corresponding traits are `std::is_copy_constructible_v`, `std::is_copy_assignable_v`, `std::is_nothrow_move_constructible_v`, and `std::is_nothrow_move_assignable_v`.
+
+Finally, try these calls separately, one at a time. Each must fail to compile; record a brief explanation, then remove it from the runnable tests:
+
+- Pass a named buffer directly to `submit`, without `std::move`.
+- Pass a const buffer to `submit` using `std::move`.
+- Pass a named buffer directly to `relay`, without `std::move`.
+
+These failures are part of the intended API. Do not change the class to allow copying. You do not need to count factory moves: the compiler can omit some moves, so different valid builds may have different counts.
 
 ### Build and review
 

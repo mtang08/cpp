@@ -2,7 +2,40 @@
 
 ## Current Module
 
-- Module 4 implementation — Move Semantics Deep Dive.
+- Module 4 — implementation checkpoint accepted; focused debugging is next. Remaining test evidence is recorded under M04-006.
+
+## 2026-10-10 — Implementation checkpoint handoff
+
+- Implemented `UniqueBuffer`, `BufferSlot`, forwarding relay, factory, and a populated test harness. Ownership and forwarding bugs were corrected after review guidance.
+- Verification: `make run`, `make run-sanitized`, and `make run-no-elide` passed. An independent compile probe confirmed plain-lvalue relay calls fail through the deleted copy constructor. The intentional self-move test produces a compiler warning.
+- Review state: M04-001 through M04-005 resolved; M04-006 remains open for incomplete acceptance evidence. Passing builds do not cover every specified check.
+- Accepted this implementation checkpoint after the learner requested less repetitive testing and a focus on new concepts. No further testing drills assigned; this does not mark the remaining test evidence verified or the whole module complete.
+- Mistakes:
+  - Initially omitted the template argument to `std::forward`, then hardcoded `UniqueBuffer` instead of preserving the deduced `T`.
+  - Expected a populated result after clearing the slot, then tried to repopulate it using an already moved-from buffer.
+- Conventions learned:
+  - Applied `std::forward<T>` to preserve the caller's value category; named parameters are lvalue expressions.
+  - Distinguished zero-valued bytes from an empty buffer.
+  - Used specific exception catches and explicit checks in tests.
+  - Explained with prompts that `std::move` preserves constness, preventing binding to the non-const move constructor.
+  - Identified NRVO and implicit movement as the two paths supporting the factory's return by value.
+  - Explained that slot replacement releases the old allocation and invalidates saved byte pointers; a `peek()` reference still observes the live slot's buffer object.
+- Next action: prepare Module 4's focused debugging challenge when requested. Prior difficulty rating: 1; make it harder, provide the full challenge up front, and allow independent investigation.
+
+## 2026-10-10 — Initial implementation checkpoint
+
+- Reviewed Module 4 without modifying implementation behavior. Findings M04-001 through M04-006 are recorded inline; see [review workflow](reviews.md).
+- Mistakes:
+  - Byte storage is not zero-initialized; destructor mismatches array allocation.
+  - Move assignment loses the destination's previous allocation.
+  - Default slot is nonempty; relay loses the caller's value category.
+- Conventions learned:
+  - Review findings now use dated, stable IDs with explicit status and kind for later reporting.
+- Verification: normal, sanitized, and no-elide builds pass an empty harness only. An independent compile probe confirms relay rejects a temporary through the deleted copy constructor.
+- Paused at the requested checkpoint. Acceptance tests and findings remain outstanding; module is not complete.
+- Re-review: M04-001, M04-002, and M04-003 resolved after learner fixes; an independent ASan/UBSan probe checked zero initialization, destruction, and assignment transfers. M04-004, M04-005, and M04-006 remain open.
+- Reworded the existing verification requirements as concrete actions and expected results; no scope added.
+- Further re-review: M04-004 and M04-005 resolved. Normal, sanitizer, and no-elide targets pass the populated harness. An independent plain-lvalue relay call is rejected as required. M04-006 remains open for missing acceptance evidence; its inline description now reflects the current tests.
 
 ## 2026-10-03 — Learning direction
 

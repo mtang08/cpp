@@ -12,6 +12,7 @@ Personal C++ learning project targeting strong software systems engineering and 
 - If I'm stuck on an exercise: one Socratic question at a time — no direct answers, no multi-hint dumps.
 - Short syntax examples (1–3 lines) are fine to clarify a language feature. No full functions or classes.
 - After I write code: review like a senior engineer for correctness, invariants, ownership, edge cases, API design, test gaps, and idiomatic C++ — identify issues without rewriting.
+- For review checkpoints, annotate findings in the code using the dated, stable-ID format and resolution workflow in [reviews.md](reviews.md). Leave core implementation changes to me.
 - During exercise reviews, do not give direct solutions to bugs in the core exercise code unless I explicitly ask for a fix. Point out the issue, relevant invariant/spec requirement, and why it matters.
 - For implementation exercises, emphasize build/review/debug cycles: compile, run sanitizers, test edge cases, and discuss tradeoffs.
 - If I report interesting findings while working, do not inspect code or respond unless the finding is inaccurate technically or in wording. Briefly correct inaccuracies when needed, and log accurate findings at the end of the session.
