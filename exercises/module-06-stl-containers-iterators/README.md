@@ -1,12 +1,20 @@
 # Module 6 — Containers, Storage, and Element Lifetime
 
-Status: specified, not started. Prerequisites: Modules 1–5; proceed in sequence.
+## For you
 
-## New learning
+### Goal
 
-Separate raw storage from live objects; allocator_traits, construction/destruction, relocation, exception guarantees and invalidation. Compare standard container complexity and locality.
+A bounded vector<T> implementation.
 
-## Exercise: A bounded vector<T> implementation
+### Steps
+
+1. Implement the requirements and run the checks below.
+2. Say **“review”**; fix required findings. The teacher handles correctness and C++ quality checks.
+3. Complete the debugging challenge, then the short quiz (or skip it). Say **“continue”** to move forward.
+
+You do not need to name skills. Say **“wrap up”** to save your place at any time.
+
+### Build
 
 Implement an owning contiguous container with size, capacity, empty, indexed access, checked at, reserve, clear, push_back(const T&) and push_back(T&&), destruction and move operations. Copying the container may be deleted. Use std::allocator<T> and allocator_traits for storage/lifetime operations. Do not use new T[capacity] or an STL container as backing storage.
 
@@ -14,14 +22,27 @@ Support non-default-constructible types and move-only types with nonthrowing mov
 
 For supported types, failed reserve or append must leave the container's prior size, capacity and element values intact. An external rvalue argument may be modified by its own throwing constructor. Append arguments must not refer to an element inside this container; document that explicit precondition. Detect capacity/size overflow before allocation. Choose a growth policy and document invalidation. No custom iterator implementation is required.
 
-## Verification and review
+### Check
 
 Use lifetime-counting, non-default-constructible, move-only and copy-throwing test types. Test relocation failure, destruction counts, empty states, bounds and reuse after move. Explain vector/map/unordered_map/deque choices for ID lookup and ordered price queries; implement only this container.
 
-Follow the build/review workflow in [the curriculum](../../curriculum.md). Write the implementation and tests independently, then request review. Briefly explain key design choices; a long report is not required.
+Use the [shared build rules](../../curriculum.md#build-rules). Brief explanations of design choices are enough.
 
-## Scope boundary
+### Scope
 
 Out of scope: Full std::vector compatibility, allocator propagation, custom allocators, copyable container semantics and throwing move-only relocation. This adds object lifetime to Module 3, not another integer array.
 
-Capstone connection: Understand standard containers before choosing book indexes.
+## For the teacher
+
+<details>
+<summary>Scope, sequencing, and handoff notes</summary>
+
+Prerequisites: Modules 1–5.
+
+Teaching focus: Separate raw storage from live objects; allocator_traits, construction/destruction, relocation, exception guarantees and invalidation. Compare standard container complexity and locality.
+
+Project connection: Understand standard containers before choosing book indexes.
+
+Read [the teacher workflow](../../context/teaching-workflow.md) for skill routing. Current phase, evidence, exceptions and next action belong in [progress](../../progress.md), not in this specification.
+
+</details>

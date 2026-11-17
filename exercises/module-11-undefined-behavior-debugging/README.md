@@ -1,25 +1,48 @@
 # Module 11 — Undefined Behavior and Debugging
 
-Status: specified, not started. Prerequisites: Modules 1–10; proceed in sequence.
+## For you
 
-## New learning
+### Goal
 
-Lifetime/bounds, signed overflow, aliasing/alignment, optimizer assumptions, debugger use and sanitizer limitations.
+Repair an unfamiliar processing component.
 
-## Exercise: Repair an unfamiliar processing component
+### Steps
 
-This module is one combined implementation/debugging challenge. When it starts, the assistant supplies a compact unfamiliar event-processing component, observable behavior requirements and failing inputs, calibrated to the latest difficulty rating. Investigate and repair it independently, add regression tests and explain each violated invariant or language rule.
+1. Investigate the supplied challenge and add focused regression checks.
+2. Say **“review”** when ready; the teacher handles correctness and C++ quality checks.
+3. Give a difficulty rating, answer the short quiz (or skip), then say **“continue”** when ready.
 
-Use warning/debug and optimized builds plus ASan/UBSan. Use a debugger to inspect relevant state, and compiler output when needed to explain a discrepancy. Generate actual defects just in time, without describing their locations or fixes in advance.
+You do not need to name skills. Say **“wrap up”** to save your place at any time.
 
-## Verification and review
+### Build
+
+Investigate and repair the supplied event-processing component independently. Add regression tests and explain each violated invariant or language rule.
+
+Use warning/debug and optimized builds plus ASan/UBSan. Use a debugger to inspect relevant state, and compiler output when needed to explain a discrepancy.
+
+### Check
 
 Reproducible failures, justified fixes and regression tests covering each issue. Explain what clean sanitizer results do and do not establish.
 
-Follow the build/review workflow in [the curriculum](../../curriculum.md). Write the implementation and tests independently, then request review. Briefly explain key design choices; a long report is not required.
+Use the [shared build rules](../../curriculum.md#build-rules). Brief explanations of design choices are enough.
 
-## Scope boundary
+### Scope
 
 Out of scope: A second duplicate debug assignment, exhaustive UB puzzles or mandatory MSan on unsupported platforms.
 
-Capstone connection: Investigate integration failures independently.
+## For the teacher
+
+<details>
+<summary>Scope, sequencing, and handoff notes</summary>
+
+Prerequisites: Modules 1–10.
+
+Teaching focus: Lifetime/bounds, signed overflow, aliasing/alignment, optimizer assumptions, debugger use and sanitizer limitations.
+
+Project connection: Investigate integration failures independently.
+
+Generate the full challenge and failing inputs when reached, calibrated to the latest difficulty rating. This is the combined implementation/debugging assignment; do not create a second challenge or expose defect locations.
+
+Read [the teacher workflow](../../context/teaching-workflow.md) for skill routing. Current phase, evidence, exceptions and next action belong in [progress](../../progress.md), not in this specification.
+
+</details>

@@ -30,7 +30,7 @@ The learner is more interested in application/system behavior at millisecond sca
 
 ## Agreed learning sequence
 
-1. Finish the initial C++ foundations before making networking and concurrency major implementation topics. Continue one module at a time; Module 4 is currently active.
+1. Finish the initial C++ foundations before making networking and concurrency major implementation topics. Continue one module at a time; consult progress.md for the current phase.
 2. Build a **single-threaded order-book replay application** as the initial capstone, integrating module learning into a real project. Start with one instrument and a small documented event format. Recorded executions are inputs; a matching engine is a separate potential extension.
 3. Continue evolving that project into a larger software system. Introduce networking and concurrency gradually when the project creates a concrete need for them.
 4. Read Effective Modern C++ alongside continued project work after the initial modules.
@@ -44,3 +44,7 @@ The initial capstone choice is settled. Potential subsequent extensions discusse
 The detailed curriculum and Modules 4–15 specifications were revised on 2026-10-03 after this goals discussion. The learner wants to work through them efficiently to build momentum. Follow the planned progression, avoid adding drills or duplicate ownership/container work without a new learning objective, and gradually give the learner more API and design ownership. Future networking/concurrency milestones remain a roadmap to specify when reached.
 
 Success means independent engineering judgment supported by tests, debugging, and measurements. Do not turn preparation into an ever-growing prerequisite list or equate curriculum completion with guaranteed hiring readiness.
+
+## Reading and workflow preference — 2026-11-08
+
+Keep learner instructions concise and separate from agent-facing status/teaching notes. The learner reads the `For you` section of module READMEs and can skip the collapsed teacher section. Select the installed review, quiz and handoff skills at their normal curriculum steps without requiring manual skill names; [teaching-workflow.md](teaching-workflow.md) defines the routing and preserves pauses, accepted checkpoints and optional quiz skips.

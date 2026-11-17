@@ -1,12 +1,22 @@
 # Module 4 — Move Semantics Deep Dive
 
-## Challenge: move-only buffer handoff
+## For you
 
-Build a move-only byte buffer and a single-buffer processing slot. The goal is to make ownership transfers explicit and understand when expressions permit or prevent moving. Write the implementation and tests yourself; no conversational checkpoints are required.
+### Goal
 
-Status: active. Prerequisites: Modules 1–3. The new learning is ownership handoff across APIs, forwarding, and return values. The buffer reinforces earlier ownership work; do not add capacity/growth, copying, iterators, or generic storage. Module 5 covers broader template constraints and Module 6 covers generic element lifetime. This exercise prepares you to distinguish owned input from borrowed observation in the replay project.
+Build a move-only byte buffer, processing slot, forwarding relay and return-by-value factory. Practice ownership handoff across APIs.
 
-### `UniqueBuffer`
+### Steps
+
+1. Implement the requirements and run the checks below.
+2. Say **“review”**; fix required findings. The teacher handles correctness and C++ quality checks.
+3. Complete the debugging challenge, then the short quiz (or skip it). Say **“continue”** to move forward.
+
+You do not need to name skills. Say **“wrap up”** to save your place at any time.
+
+### Build
+
+#### `UniqueBuffer`
 
 Provide this public API:
 
@@ -32,7 +42,7 @@ const std::byte& at(std::size_t index) const;
 - Move assignment releases the destination's previous allocation. Self-move preserves its existing contents and pointer.
 - Every public operation preserves exclusive ownership and the invariant `size() == 0` if and only if `data() == nullptr`.
 
-### `BufferSlot`
+#### `BufferSlot`
 
 Own one `UniqueBuffer` and provide:
 
@@ -49,17 +59,17 @@ UniqueBuffer take() noexcept;
 - `take` returns the stored buffer by value, leaving the slot empty. It transfers the allocation without copying or allocating.
 - A buffer passed from a named caller variable must be explicitly surrendered by the caller; temporaries must work directly.
 
-### Forwarding and return values
+#### Forwarding and return values
 
 - Write a function template `relay(BufferSlot& slot, T&& buffer)` that forwards its argument to `submit`, preserving its value category. Do not unconditionally treat every argument as movable.
 - Write a factory `make_buffer(std::size_t size)` that creates a named local buffer, fills its bytes with `std::byte{0x2a}`, and returns it by value.
 - At the factory return, let the language perform return-value optimization or implicit movement.
 
-### Verification
+### Check
 
 Write checks in `main.cpp` that fail visibly when the expected result is wrong. Merely calling a function does not test its result. Keep checks active even if `NDEBUG` is defined (plain `assert` is disabled in that build).
 
-The table spells out the existing requirements; it does not add new ones. A source is the object you move from; a destination is the object receiving its storage. A moved-from object is still alive, but this exercise requires it to be empty.
+A source is the object you move from; a destination is the object receiving its storage. A moved-from object is still alive, but this exercise requires it to be empty.
 
 | What to test | What to do and check |
 |---|---|
@@ -91,10 +101,21 @@ Finally, try these calls separately, one at a time. Each must fail to compile; r
 
 These failures are part of the intended API. Do not change the class to allow copying. You do not need to count factory moves: the compiler can omit some moves, so different valid builds may have different counts.
 
-### Build and review
+Run `make run`, `make run-sanitized`, and `make run-no-elide`. Compile with C++20 and `-Wall -Wextra -Wpedantic -g`; `make clean` removes build outputs. Briefly explain the rejected calls and why the factory works without optional elision.
 
-Use C++20 with `-Wall -Wextra -Wpedantic -g`. The supplied Makefile supports `make run`, `make run-sanitized`, `make run-no-elide`, and `make clean`.
+### Scope
 
-Work through implementation, compilation, and debugging independently. When ready for review, include your explanation of the rejected calls and why the factory works even when optional elision is disabled.
+No growth/capacity API, copying, iterators or generic storage. The no-elide build disables optional NRVO, not mandatory C++17 prvalue elision.
 
-The no-elide flag disables optional elision such as NRVO; it does not disable mandatory C++17 prvalue elision. Keep the explanation brief. Passing the stated checks and addressing review findings completes the implementation exercise; no extra move-semantics drills are required. A separate focused debugging session will be generated using your latest difficulty rating.
+## For the teacher
+
+<details>
+<summary>Scope, sequencing, and handoff notes</summary>
+
+Prerequisites: Modules 1–3. New learning is value categories, const interaction, forwarding and return-value behavior; do not repeat the Rule-of-Five drill. Module 5 covers broader template constraints; Module 6 covers generic element lifetime.
+
+The accepted implementation checkpoint and deferred M04-006 evidence are recorded in progress.md. Preserve that exception and consult progress.md for the packet-delivery phase. Do not restart implementation, silently resolve evidence gaps, or assign repetitive test drills during this formatting/workflow change. An accepted checkpoint is not a claim that all requirements are verified.
+
+Read [the teacher workflow](../../context/teaching-workflow.md) for skill routing. Current phase, evidence, exceptions and next action belong in [progress](../../progress.md), not in this specification.
+
+</details>

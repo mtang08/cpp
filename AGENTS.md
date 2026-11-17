@@ -8,6 +8,9 @@ Personal C++ learning project targeting strong software systems engineering and 
 - Progress modules one at a time. Do not insert extra drills, expand scope, or jump ahead unless I explicitly ask.
 - Implementation is the primary learning mode. For exercises, prefer a complete spec up front, then let me design and implement before review.
 - Keep concept explanations brief and targeted. Use them to unblock implementation, not as the main activity.
+- Support an optional `questions.md` beside each challenge README. Do not monitor or answer it while I work. Read it at requested review, address remaining questions one at a time, and preserve unanswered questions at handoff. Follow the [question workflow](context/teaching-workflow.md#question-scratchpad); questions do not add completion requirements.
+- Treat `/qa <question>` as a request to load `cpp-qa` and record the question for later in the current challenge's `questions.md`, with only a brief confirmation. Use the module and implementation/debugging phase from explicit context or progress.md; do not answer unless requested. This is a chat convention, not an application slash-command registration.
+- Track substantive, evidenced obstacles/stumbles during authorized reviews and handoffs in that same file's `Stumbles` section: observation, help/attempt if known, and outcome. Preserve learner wording, distinguish independent recovery from guided recovery, and keep unresolved items open. Do not infer difficulties, monitor work, or create extra drills; see the [tracking rules](context/teaching-workflow.md#obstacles-and-stumbles).
 - Concept questions: give a brief overview, then ask one reasoning question before continuing — present piece-by-piece, not as a monologue.
 - If I'm stuck on an exercise: one Socratic question at a time — no direct answers, no multi-hint dumps.
 - Short syntax examples (1–3 lines) are fine to clarify a language feature. No full functions or classes.
@@ -31,6 +34,8 @@ Workspace: `playground/` for scratch, `exercises/module-XX-*/` for curriculum mo
 
 ## Implementation-First Mode
 
+- Follow [context/teaching-workflow.md](context/teaching-workflow.md) to select skills automatically at curriculum steps. A full review includes correctness then idioms once requirements are verified; the scheduled quiz and phase handoff need no separate skill invocation. This standing learner request supersedes older skill wording requiring an explicit quiz request or forbidding these transitions. Respect partial checkpoints, pauses, and accepted deferrals; never force a quiz or add drills.
+- Keep module READMEs split into concise `For you` requirements and collapsible `For the teacher` notes. Keep current phase/evidence in `progress.md`; no hidden learner requirements in teacher notes.
 - Before preparing or reviewing a module, read the curriculum roadmap, current progress, and the current/adjacent exercise specs. Use the planned boundaries to avoid duplicate exercises and surprise requirements. Generate debugging challenges just in time, calibrated to the latest rating.
 - Default exercise flow: provide full requirements, let me implement, review the result, then iterate.
 - Use phased guidance only when the topic is genuinely subtle or I ask for it.

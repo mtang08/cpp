@@ -1,9 +1,32 @@
 # Module 12 — Error Handling and Parsing
 
-Status: planned; generate the challenge when this module starts.
+## For you
 
-Scope: Partial numeric parsing, lost diagnostics, overflow and escaped borrowed data.
+### Goal
 
-Read [progress](../../progress.md) for the latest difficulty rating and [AGENTS.md](../../AGENTS.md) for the debugging flow. Provide the complete observable contract and reproduction/build instructions without revealing bug locations. Let the learner investigate independently; review on request. Record the session and ask for a 1–5 difficulty rating at completion.
+Investigate a component using this module’s concepts.
 
-Keep the challenge focused on this module and reuse prior topics only where relevant.
+### Steps
+
+Investigate independently, then say **“review”**. The teacher handles review, the difficulty rating, the module quiz (or skip), and saving your place.
+
+### Build
+
+The teacher supplies the complete contract and runnable challenge when you reach this step. Then investigate independently and request review when ready.
+
+### Check
+
+Use the challenge’s specified builds and checks. At the end, give a difficulty rating from 1–5.
+
+## For the teacher
+
+<details>
+<summary>Scope, sequencing, and handoff notes</summary>
+
+Planned challenge, not generated. Scope: Partial numeric parsing, lost diagnostics, overflow and escaped borrowed data.
+
+Generate just in time using the latest difficulty rating. Keep the full observable contract and reproduction commands in the learner section; keep calibration and generation instructions here.
+
+Read [the teacher workflow](../../context/teaching-workflow.md) for skill routing. Current phase, evidence, exceptions and next action belong in [progress](../../progress.md), not in this specification.
+
+</details>

@@ -1,18 +1,22 @@
 # Module 3 — The Rule of Five and Value Semantics
 
-## Exercise: `DynamicArray`
+## For you
 
-Implement a small owning dynamic array of `int` that practices value semantics and all five special member functions.
+### Goal
 
-You write the implementation. The goal is not to recreate `std::vector`, but to understand ownership, copying, moving, and object invariants.
+Implement an owning dynamic array of int to practice value semantics and the five special members.
 
-## Requirements
+### Steps
+
+Archived exercise; no new work is assigned here.
+
+### Build
 
 Create `main.cpp` and a `Makefile` in this directory.
 
 The class should be named `DynamicArray`.
 
-### Core API
+#### Core API
 
 - Constructor: `DynamicArray(std::size_t initial_capacity)`
 - Destructor
@@ -29,7 +33,7 @@ The class should be named `DynamicArray`.
 - `int& at(std::size_t index)`
 - `const int& at(std::size_t index) const`
 
-### Behavior
+#### Behavior
 
 - The array owns a heap allocation for `int` elements.
 - `size()` is the number of constructed/logically present elements.
@@ -41,7 +45,7 @@ The class should be named `DynamicArray`.
 - A copied `DynamicArray` must own its own allocation. Mutating the copy must not mutate the original.
 - A moved-from `DynamicArray` must remain destructible and valid to query with `size()`, `capacity()`, and `empty()`.
 
-### Invariants
+#### Invariants
 
 Maintain these after every public operation:
 
@@ -51,7 +55,7 @@ Maintain these after every public operation:
 - Destruction releases exactly the allocation owned by that object.
 - No two live `DynamicArray` objects should believe they exclusively own the same allocation.
 
-### Testing In `main`
+### Check
 
 Write tests or checks that demonstrate:
 
@@ -67,7 +71,9 @@ Write tests or checks that demonstrate:
 - Self-copy-assignment does not corrupt the object.
 - Self-move-assignment does not corrupt the object.
 
-### Constraints
+Build targets: `make run`, `make run-sanitized`, `make clean`.
+
+### Scope
 
 - Use raw `new[]` and `delete[]` internally for this exercise.
 - Do not use `std::vector`, `std::unique_ptr`, or `std::shared_ptr` inside `DynamicArray`.
@@ -76,10 +82,13 @@ Write tests or checks that demonstrate:
 - Compile with `-std=c++20 -Wall -Wextra -Wpedantic -g`.
 - Run with AddressSanitizer/UBSan before review.
 
-### Build Targets
+## For the teacher
 
-Use the same target shape as prior modules:
+<details>
+<summary>Scope, sequencing, and handoff notes</summary>
 
-- `make run`
-- `make run-sanitized`
-- `make clean`
+Historical completed module. Preserve its original contract and work; no new review, quiz or debugging requirement is added retroactively.
+
+Read [the teacher workflow](../../context/teaching-workflow.md) for skill routing. Current phase, evidence, exceptions and next action belong in [progress](../../progress.md), not in this specification.
+
+</details>

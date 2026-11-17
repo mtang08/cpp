@@ -2,6 +2,8 @@
 
 Review the current implementation against its existing module spec. Read the learning context, roadmap, progress, and current/adjacent specs first. A checkpoint can review incomplete work without declaring the module complete. Identify bugs without rewriting core code or providing fixes unless requested.
 
+At requested review, also read `questions.md` beside the challenge README if present. After reporting findings, address unresolved questions one at a time using the [question workflow](context/teaching-workflow.md#question-scratchpad). Honor code-only review requests; keep learning questions separate from the finding ledger.
+
 ## Inline finding format
 
 Place each finding immediately above the relevant code, using one comment line:
@@ -24,4 +26,4 @@ Run checks appropriate to the implemented portion. Report what they actually exe
 
 The learner fixes code and adds meaningful regression checks. On requested re-review, confirm the relevant behavior before changing a finding to `resolved`. Retain its original date and ID; append `Verified YYYY-MM-DD: <evidence>.` to the comment. Move the comment to the corrected code if necessary. Use `dismissed` with a dated reason when a finding is shown to be invalid. Keep retained records factual so future spaced review can distinguish historical issues from active ones.
 
-Log checkpoint state and notable verification concisely in `progress.md`. Record mistakes separately from conventions actually demonstrated or learned. Stop at the requested checkpoint; proceed only when the learner asks.
+Log checkpoint state and notable verification concisely in `progress.md`. Record mistakes separately from conventions actually demonstrated or learned. Stop at a requested partial checkpoint. A full review follows [the teacher workflow](context/teaching-workflow.md): run the idioms pass once correctness and acceptance evidence are verified, without requiring another skill invocation. Preserve explicit deferrals and avoid repetitive testing. The module quiz follows the scheduled module workflow, not every review.

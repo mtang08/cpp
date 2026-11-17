@@ -2,7 +2,27 @@
 
 ## Current Module
 
-- Module 4 — implementation checkpoint accepted; focused debugging is next. Remaining test evidence is recorded under M04-006.
+- Module 4 debugging reviewed; difficulty 3/5. Scheduled module quiz next (optional). Implementation checkpoint accepted; M04-006 remains open for deferred test evidence.
+
+## 2026-11-08 — Debugging solution review
+
+- `make run` and `make run-sanitized` pass all ten supplied checks. Forwarding preserves caller categories; archive transfers without copying; inspector observes replacement contents through a borrowed inbox reference.
+- Inspector now accepts an inbox rather than `peek()`'s payload; its harness construction was adjusted accordingly. This is an interface variation from the supplied challenge, discussed during guidance; the behavioral checks remain intact.
+- Nonblocking warning: archive's explicit return move is redundant. The learner's inspector comment overstates the restriction: a reference to the stable payload object is also valid; the original problem was the saved element pointer.
+- Debugging difficulty rating: 3/5; retain this difficulty for the next debugging session. Prior implementation test evidence M04-006 remains open under the accepted checkpoint; it is not a new debugging requirement.
+- Next action: scheduled optional Module 4 quiz, then save the module handoff. Quiz not yet answered.
+
+## 2026-11-08 — Documentation and workflow
+
+- Standardized module READMEs into learner requirements and collapsible teacher notes. Full-review skill routing, scheduled optional quizzes and handoff logging now follow context/teaching-workflow.md without manual skill names.
+- Module 4 remains in packet-delivery debugging; the accepted implementation checkpoint and open M04-006 evidence are unchanged. No exercise code was reviewed or modified.
+- Next action: continue the existing debugging challenge and request review when ready.
+
+## 2026-11-02
+
+- Started the focused Module 4 debugging challenge in `debugging/module-04-move-semantics/`.
+- Calibration: previous debugging rating 1; complete contract and independent investigation, with no defect annotations or conversational checkpoints.
+- Next action: investigate and repair the delivery component, then request review. Current debugging difficulty rating is pending completion.
 
 ## 2026-10-10 — Implementation checkpoint handoff
 
